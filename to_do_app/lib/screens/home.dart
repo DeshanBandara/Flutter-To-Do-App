@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import '../constants/colors.dart';
 import '../widgets/todo_item.dart';
+import '../model/todo.dart';
 
 class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+  Home({Key? key}) : super(key: key);
+
+  final todoList = ToDo.todoList();
 
   @override
   Widget build(BuildContext context) {
@@ -11,30 +14,34 @@ class Home extends StatelessWidget {
       backgroundColor: tdBGColor,
       appBar: _buildAppBar(),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15,),
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 15,
+        ),
         child: Column(
           children: [
             searchBox(),
             Expanded(
-              child: ListView(  ///// Methana idan patan ganna
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: 50,
-                      bottom: 20,
-                    ),
-                    child: Text(
-                      'All ToDos',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
-                      ),
+                child: ListView(
+              ///// Methana idan patan ganna
+              children: [
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 50,
+                    bottom: 20,
+                  ),
+                  child: Text(
+                    'All ToDos',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                  ToDoItem(),
-                ],
-              )
-            )
+                ),
+                for ( ToDo todo in todoList)
+                ToDoItem(todo: todo,),
+              ],
+            ))
           ],
         ),
       ),
@@ -43,7 +50,9 @@ class Home extends StatelessWidget {
 
   Widget searchBox() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15,),
+      padding: EdgeInsets.symmetric(
+        horizontal: 15,
+      ),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(20)),
       child: TextField(
